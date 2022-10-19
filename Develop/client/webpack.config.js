@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
@@ -23,9 +24,10 @@ module.exports = () => {
         title: 'Webpack Plugin',
       }),
       new WebpackPwaManifest(),
+      new MiniCssExtractPlugin(),
       new InjectManifest({
-        swSrc: './src/src-sw.js',
-        swDest: 'service-worker.js',
+        swSrc: './src-sw.js',
+        swDest: './src-sw.js'
       }),
     ],
 

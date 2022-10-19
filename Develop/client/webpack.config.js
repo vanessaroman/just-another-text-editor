@@ -3,6 +3,7 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
+const { SourceMapDevToolPlugin } = require("webpack");
 
 // TODO: Add and configure workbox plugins for a service worker and manifest file.
 // TODO: Add CSS loaders and babel to webpack.
@@ -23,11 +24,34 @@ module.exports = () => {
         template: './index.html',
         title: 'Webpack Plugin',
       }),
-      new WebpackPwaManifest(),
+      new WebpackPwaManifest(
+        {
+          fingerprints: false,
+          inject: true,
+          name: 'Text Editor',
+          display: "standalone",
+          short_name: 'JATE',
+          description: 'Just Another Text Editor',
+          background_color: '#DAF7A6',
+          theme_color: '#67C177',
+          start_url: '/',
+          publicPath: '/',
+          icons: [
+            {
+              src: path.resolve('src/images/logo.png'),
+              sizes: [96, 128, 192, 256, 384, 512],
+              destination: path.join('assets', 'icons'),
+            }
+          ]
+        }
+      ),
       new MiniCssExtractPlugin(),
       new InjectManifest({
         swSrc: './src-sw.js',
         swDest: './src-sw.js'
+      }),
+      new SourceMapDevToolPlugin({
+        filename: "[file].map"
       }),
     ],
 
@@ -50,6 +74,11 @@ module.exports = () => {
               presets: ['@babel/preset-env'],
             },
           },
+        },
+        {
+          test: /\.js$/,
+          enforce: 'pre',
+          use: ['source-map-loader'],
         },
       ],
     },

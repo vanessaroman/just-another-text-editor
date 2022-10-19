@@ -30,3 +30,4 @@ eval("function _typeof(obj) { \"@babel/helpers - typeof\"; return _typeof = \"fu
 /******/ 	
 /******/ })()
 ;
+//# sourceMappingURL=install.bundle.js.map
